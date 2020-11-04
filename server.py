@@ -1,11 +1,28 @@
 import flask
 import mysql.connector
+from flask_login import login_required,logout_user,LoginManager, login_user, current_user, UserMixin
+import bcrypt
+import datetime
 
 # Para instalar o flask digite no terminal do seu Sistema Operacional: pip install flask
 
 app = flask.Flask(__name__, template_folder='templates', # Todos os arquivos HTML
                             static_folder='static',      # Todos os arquivos JS e CSS
                             static_url_path='')          # URL para acessar a pasta static, '' significa acessar pelo domínio direto
+
+login = LoginManager(app)
+login.login_view = '/' # Redireciona o decorator @login_required para a pagina inicial
+app.permanent_session_lifetime = datetime.timedelta(seconds=24*3600)
+app.config['SECRET_KEY'] = '323er0892-9u3410dfn1201208' # Senha de cript do cookie do navegador
+senha_cript = b'$2b$08$0kvyLsB5utEvz7OQ5/m8F.' # Senha de cript do banco de dados
+
+@login.user_loader
+def user_loader(id):
+    return User(id)
+
+class User(UserMixin):
+    def __init__(self, username):
+        self.id = username
 
 banco_de_dados = mysql.connector.connect(
     host="cadastro-teste.mysql.uhserver.com",
@@ -15,11 +32,53 @@ banco_de_dados = mysql.connector.connect(
 )
 cursor = banco_de_dados.cursor()
 
-@app.route('/',methods=['GET'])
-def home(): 
-    return flask.render_template('home.html')
+@app.route('/',methods=['GET','POST'])
+def login_page(): 
 
+    if flask.request.method == 'GET':
+
+        if current_user.is_authenticated: # Verifica o cookie dentro do seu navegador
+            return flask.render_template('home.html')
+        else:
+            # Não está autenticado ou passou o tempo "permanent_session_lifetime"
+            return flask.render_template('login.html')
+
+    elif flask.request.method == 'POST':
+
+        user = str(flask.request.form['user'])
+        password_login = str(flask.request.form['pass'])
+
+        if (user == '') | (password_login == ''):
+            return flask.render_template('login.html',status_login="Preecha os campos de autenticação")
+
+        # Verifica se o usuário está cadastrado
+        sql_select = f'SELECT user,email,nome,pass FROM cadastro WHERE user = "{user}"'
+        cursor.execute(sql_select)
+        resultado = cursor.fetchall()
+        if len(resultado) == 0:
+            # Não está cadastrado
+            return flask.render_template('login.html',status_login="Usuário não cadastrado")
+        else:
+            # Está cadastrado
+            resultado = resultado[0] # Pegando a primeira linha 
+            password_banco_de_dados_cript = resultado[3]
+            
+            password_login_cript = bcrypt.hashpw(password_login.encode('utf-8'),senha_cript).decode('utf-8')
+
+            if password_banco_de_dados_cript == password_login_cript:
+                login_user(User(user)) # Cria um cookie no navegador do usuário
+                return flask.render_template('home.html')
+            else:
+                return flask.render_template('login.html',status_login="Senha incorreta")
+
+@app.route("/logout",methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return flask.render_template('login.html')
+    
 @app.route('/cadastrar',methods=['POST'])
+@login_required
 def salvar_dados():
     info = flask.request.form.to_dict()
 
@@ -53,6 +112,7 @@ def salvar_dados():
     return flask.render_template('home.html',status=f"RG: {rg} cadastrado com sucesso")
 
 @app.route('/consultar_rg',methods=['POST'])
+@login_required
 def consultar_dados():
     
     info = flask.request.form.to_dict()
@@ -95,6 +155,7 @@ def consultar_dados():
     return flask.render_template('home.html',resultado=resultado_final)
 
 @app.route('/consultar_email',methods=['POST'])
+@login_required
 def consultar_email():
     
     info = flask.request.form.to_dict()
@@ -131,6 +192,7 @@ def consultar_email():
     return flask.render_template('home.html',resultado=resultado_final)
 
 @app.route('/alterar',methods=['POST'])
+@login_required
 def alterar_dados():
     info = flask.request.form.to_dict()
 
@@ -178,6 +240,7 @@ def alterar_dados():
         return flask.render_template('home.html',status=f"RG: {rg} alterado com sucesso")
 
 @app.route('/deletar',methods=['POST'])
+@login_required
 def deletar_dados():
     info = flask.request.form.to_dict()
     rg = info['rg_del']
