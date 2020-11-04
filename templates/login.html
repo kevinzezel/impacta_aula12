@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head> 
+
+    <meta charset="utf-8"> 
+    <title>Login</title> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="css/style_login.css">
+  </head> 
+
+  <body> 
+
+
+    <div id="div_p" class="center-align container" style="top:0px">
+      <h6 class="logo-text" style="font-size: 20px;color:blue;"><b>Sistema de login</span> </b></h6>
+      <h6 class="logo-text" style="font-size: 20px;color:#424242"><b>Autenticação</b></h6> 
+      <br>
+        <div class='row'>
+        <div class="col s12 m8 l8 xl6 offset-m2 offset-l2 offset-xl3">
+            <div class="card-panel white">
+              <ul class="tabs">
+                <li class="tab col s6"><a id="tab1" class="active" href="#login_tab">Login</a></li>
+                <li class="tab col s6"><a id="tab2" href="#cad_tab">Cadastrar</a></li>
+              </ul>
+
+              <div id="login_tab" class="col s12">
+                
+                  <form action="/" method="POST" id="formulario_login" > 
+                    <br>
+                    <div class="left-align">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="user"><b>Conta</b></label>
+                          <input placeholder="Digite seu RG" id="user" name="user" type="text" class="validate">
+                        </div>
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="pass"><b>Senha</b></label>
+                          <input placeholder="Digite sua senha" id="pass" name="pass" type="password" class="validate">
+                        </div>
+                        <div class="col s6">
+                          <br>
+                          <button class="btn waves-effect waves-light" style="background-color:blue;" type="submit">ENVIAR <!--type="submit"-->
+                            <i class="material-icons right">send</i>
+                          </button>
+                        </div>
+                        <div class="col s6">
+                          <br>
+                          <label style="font-size:13px;color: blue" id='status_login'><b>{{ status_login }}</b></label>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                
+              </div>
+
+              <div id="cad_tab" class="col s12">
+
+                  <form action="/cadastrar_usuario" method="POST" id="formulario_cad"> 
+                    <br>
+                    <div class="left-align">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="user_cad"><b>Conta</b></label>
+                          <input placeholder="Digite seu RG" id="user_cad" name="user_cad" type="text" class="validate">
+                        </div>
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="email_cad"><b>Email</b></label>
+                          <input placeholder="Digite seu email" id="email_cad" name="email_cad" type="email" class="validate">
+                        </div>
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="nome_cad"><b>Nome</b></label>
+                          <input placeholder="Digite seu nome" id="nome_cad" name="nome_cad" type="text" class="validate">
+                        </div>
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="pass_cad1"><b>Senha</b></label>
+                          <input placeholder="Digite sua senha" id="pass_cad1" name="pass_cad1" type="password" class="validate">
+                        </div>
+                        <div class="input-field col s12">
+                          <label style="font-size: 15px;color:#424242" for="pass_cad2"><b>Confirmar senha</b></label>
+                          <input placeholder="Digite sua senha" id="pass_cad2" name="pass_cad2" type="password" class="validate">
+                        </div>
+                        <div class="col s6">
+                          <br>
+                          <button class="btn waves-effect waves-light" style="background-color:blue;" type="submit">ENVIAR <!--type="submit"-->
+                            <i class="material-icons right">send</i>
+                          </button>
+                        </div>
+                        <div class="col s6">
+                          <br>
+                          <label style="font-size:13px;color: blue" id='status_cadastro'><b>{{ status_cadastro }}</b></label>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                
+            </div>
+
+          </div>
+        </div>
+        
+      </div>
+    </div> 
+
+  
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> 
+    <script>
+      $('.tabs').tabs();
+      if(document.location.href.split('/')[3] == "cadastrar_usuario"){
+        $('#tab2')[0].click();
+      }
+    </script>
+  </body>
+</html>

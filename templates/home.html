@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <ul class="menu"> 
+            <li><a id="menu_consultar" class="active">Consultar</a></li>
+            <li><a id="menu_cadastrar">Cadastrar</a></li>
+            <li><a id="menu_alterar">Alterar</a></li>
+            <li><a id="menu_deletar">Deletar</a></li>
+        </ul>
+        <br>
+        <span style="color:red;"><b>{{ status }}</b></span>  
+        
+        <div id="consultar" style="display: '';">
+
+            <h2>Consultar</h2>
+
+            <fieldset>
+                <legend>Consultar</legend>
+                <form action="consultar_email" method="POST" name="formulario2" id="formulario2">
+                    <label for="email_consulta">Email:</label>
+                    <input id="email_consulta" name="email_consulta" type="email">
+                    <br><br>
+                    <button type="submit">Consultar</button>
+                </form>
+            </fieldset>
+
+            <fieldset>
+                <legend>Consultar</legend>
+                <form action="consultar_rg" method="POST" name="formulario5" id="formulario5">
+                    <label for="rg_consulta">RG:</label>
+                    <input id="rg_consulta" name="rg_consulta" type="text">
+                    <br><br>
+                    <button type="submit">Consultar</button>
+                </form>
+            </fieldset>
+
+            <h1>Resultados</h1>
+
+            <ul>
+                {% for item in resultado %}
+        
+                    {% for i in item %}
+                        <li> <b>{{ loop.index }} - {{ i[0] }}:</b>  {{ i[1] }}</li>
+                    {% endfor %}
+        
+                    {% if loop.last == false %}
+                        <p> ---------------- </p>   
+                    {% else %}
+                        <p> ####################################### </p>  
+                    {% endif %}
+                    
+                {% endfor %}
+            </ul>
+            
+            <!-- {% block bloco_resultado %}
+            {% endblock %} -->
+
+        </div>
+
+        <div id="cadastrar" style="display: none;" >
+            <h2>Cadastrar</h2>
+        
+            <fieldset>
+                <legend>Formulário</legend>
+                <form action="cadastrar" method="POST" name="formulario" id="formulario">
+                    <label for="rg">RG:</label>
+                    <input id="rg" name="rg" type="text">
+                    <br><br>
+                    <label for="primeiro_nome">Primeiro nome:</label>
+                    <input id="primeiro_nome" name="primeiro_nome" type="text">
+                    <br><br>
+                    <label for="ultimo_nome">Último nome:</label>
+                    <input id="ultimo_nome" name="ultimo_nome" type="text">
+                    <br><br>
+                    <label for="telefone">Telefone:</label>
+                    <input id="telefone" name="telefone" type="number">
+                    <br><br>
+                    <label for="email">Email:</label>
+                    <input id="email" name="email" type="email">
+                    <br><br>
+                    <label for="comentarios">Comentarios:</label>
+                    <input id="comentarios" name="comentarios" type="text">
+                    <br><br>
+                    <button type="submit">Cadastrar</button>
+    
+                </form>
+            </fieldset>
+        </div>
+
+        <div id="alterar" style="display: none;" >
+            <h2>Alterar</h2>
+        
+            <fieldset>
+                <legend>Formulário</legend>
+                <form action="alterar" method="POST" name="formulario3" id="formulario3">
+                    <label for="rg_alt">RG:</label>
+                    <input id="rg_alt" name="rg_alt" type="text">
+                    <br><br>
+                    <label for="primeiro_nome_alt">Primeiro nome:</label>
+                    <input id="primeiro_nome_alt" name="primeiro_nome_alt" type="text">
+                    <br><br>
+                    <label for="ultimo_nome_alt">Último nome:</label>
+                    <input id="ultimo_nome_alt" name="ultimo_nome_alt" type="text">
+                    <br><br>
+                    <label for="telefone_alt">Telefone:</label>
+                    <input id="telefone_alt" name="telefone_alt" type="number">
+                    <br><br>
+                    <label for="email_alt">Email:</label>
+                    <input id="email_alt" name="email_alt" type="email">
+                    <br><br>
+                    <label for="comentarios_alt">Comentarios:</label>
+                    <input id="comentarios_alt" name="comentarios_alt" type="text">
+                    <br><br>
+                    <button type="submit">Alterar</button>
+    
+                </form>
+            </fieldset>
+        </div>
+
+        <div id="deletar" style="display: none;" >
+            <h2>Deletar</h2>
+        
+            <fieldset>
+                <legend>Formulário</legend>
+                <form action="deletar" method="POST" name="formulario4" id="formulario4">
+                    <label for="rg_del">RG:</label>
+                    <input id="rg_del" name="rg_del" type="text"><br><br>
+                    <button type="submit">Deletar</button>
+    
+                </form>
+            </fieldset>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+        <script src="js/script.js" type='text/javascript' charset="utf-8" ></script>
+    
+    </body>
+</html>

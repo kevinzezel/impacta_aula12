@@ -1,0 +1,53 @@
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: transparent;
+    color: black;
+  }
+  .tabs .indicator {
+
+    background-color: blue;
+
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: rgba(255,255,255,1);
+    outline: none;
+}
+.tabs .tab a {
+    color: black;
+}
+
+/* label underline focus color */
+.input-field input:focus {
+    border-bottom: 1px solid blue !important;
+    box-shadow: 0 1px 0 0 blue !important;
+}
+/* valid color */
+.input-field input.valid {
+    border-bottom: 1px solid blue !important;
+    box-shadow: 0 1px 0 0 blue !important;
+}
+/* invalid color */
+.input-field input.invalid {
+    border-bottom: 1px solid blue !important;
+    box-shadow: 0 1px 0 0 blue !important;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: blue !important;
+}
+        
+.card-panel{
+    padding-top: 1px;
+    height: 570px;
+}
+
+html {background-color: #e4e5e6;
+    background-image: url(img/fundo.png);
+    }
+
+#div_p{
+    position:relative;
+}
+
+.tabs{
+    width: 95%;
+}
